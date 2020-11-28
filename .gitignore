@@ -13,3 +13,4 @@ Test (Ultrawide)
 Test (5:4)
 .ImageViewer_ui.ui
 .Wallpaper-Downloader-UI-Mock.ui
+.gitignore
