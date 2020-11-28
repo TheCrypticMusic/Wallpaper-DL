@@ -1,0 +1,15 @@
+__pycache__/
+venv
+.venv/
+.ui
+Wallpaper-Downloader-UI.ui
+.jpg
+.DS_Store
+
+Test (16:10)
+Test (16:9)
+Test (4:3)
+Test (Ultrawide)
+Test (5:4)
+.ImageViewer_ui.ui
+.Wallpaper-Downloader-UI-Mock.ui
