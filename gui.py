@@ -1,5 +1,12 @@
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QFileDialog, QDialog, QFileSystemModel, QTreeView, QVBoxLayout
+from PyQt5.QtWidgets import (
+    QApplication,
+    QFileDialog,
+    QDialog,
+    QFileSystemModel,
+    QTreeView,
+    QVBoxLayout,
+)
 from PyQt5.QtCore import QDir, QModelIndex, QRect
 from PyQt5.QtGui import QPixmap
 import sys
@@ -13,13 +20,13 @@ class ImageViewer(QtWidgets.QMainWindow, Ui_ImageViewer):
     def __init__(self, folder_path, configuration, parent=None):
         super(ImageViewer, self).__init__(parent)
         self.folder_path = folder_path
-        self.image_size = configuration[0].split('x')
+        self.image_size = configuration[0].split("x")
         self.setupUi(self)
-        
+
         self.width = int(self.image_size[0])
         self.height = int(self.image_size[1])
         self.aspect_ratio = (self.height / self.width) * 900
-        
+
         self.resize(900 + 211, int(self.aspect_ratio))
         self.label.setGeometry(QtCore.QRect(211, -5, 900, int(self.aspect_ratio)))
         self.model = QFileSystemModel()
@@ -29,12 +36,10 @@ class ImageViewer(QtWidgets.QMainWindow, Ui_ImageViewer):
         self.folder_view.selectionModel().selectionChanged.connect(self.file_details)
         self.folder_view.setGeometry(QtCore.QRect(0, 0, 211, int(self.aspect_ratio)))
 
-
     def file_details(self):
         index = self.folder_view.currentIndex()
         image = self.model.filePath(index)
         self.label.setPixmap(QPixmap(image))
-
 
 
 class WallpaperApp(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -50,9 +55,11 @@ class WallpaperApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.download_button.clicked.connect(self.download)
         self.user_search = None
         self.folder_path = None
-        
+
         # List and display all the radio buttons in a groupBox
-        self.radio_buttons = self.groupBox_resolution.findChildren(QtWidgets.QRadioButton)
+        self.radio_buttons = self.groupBox_resolution.findChildren(
+            QtWidgets.QRadioButton
+        )
         for self.radio_button in self.radio_buttons:
             self.radio_button.toggled.connect(self.radio_button_logic)
 
@@ -71,7 +78,9 @@ class WallpaperApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.configuration.append(radio_toggle.text())
             if len(self.configuration) > 1:
                 self.groupBox_type_of_download.setDisabled(True)
-                self.downloading_update_label.setText(f'Resolution: {self.configuration[0]}\n{self.configuration[1]}')
+                self.downloading_update_label.setText(
+                    f"Resolution: {self.configuration[0]}\n{self.configuration[1]}"
+                )
 
     def change_button_status(self):
 
@@ -96,16 +105,21 @@ class WallpaperApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def search_terms(self):
         self.create_and_open_folder()
-        self.user_search = WallpaperDownloader(self.search_bar.text(), self.configuration[0], self.folder_path)
+        self.user_search = WallpaperDownloader(
+            self.search_bar.text(), self.configuration[0], self.folder_path
+        )
         self.downloading_update_label.setText(self.user_search.number_of_wallpapers)
         self.user_search.search()
 
-        return self.downloading_update_label.setText(f'{len(self.user_search.number_of_wallpapers)} Wallpapers Found')
+        return self.downloading_update_label.setText(
+            f"{len(self.user_search.number_of_wallpapers)} Wallpapers Found"
+        )
 
     def download(self):
         self.dialog = ImageViewer(self.folder_path, self.configuration)
         self.dialog.show()
         self.user_search.download_content(self.configuration[1])
+
 
 def main():
     app = QApplication(sys.argv)
@@ -114,5 +128,5 @@ def main():
     app.exec_()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
